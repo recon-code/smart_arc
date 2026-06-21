@@ -64,7 +64,7 @@
                 <!-- Schedule -->
                 <li class="nav-item">
                     <a href="/staff/schedule" class="nav-link">
-                        <i class="fa fa-calendar-days nav-icon"></i>
+                        <i class="fa fa-paper-plane nav-icon"></i>
                         <span class="nav-label">My Schedule</span>
                     </a>
                 </li>
