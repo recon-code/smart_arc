@@ -10,13 +10,12 @@
         <span>v1.0</span>
     </footer>
 
-    </div><!-- end .main-wrapper -->
 
 
     <!-- ============================================================
      MODAL: Approve Appointment
      ============================================================ -->
-    <div class="modal-backdrop" id="approve-modal" role="dialog" aria-modal="true" aria-labelledby="approve-title" hidden>
+    <div class="modal-backdrop" id="approve-modal" role="dialog" aria-modal="true" aria-labelledby="approve-title">
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title" id="approve-title"><i class="fa fa-check-circle"></i> Approve Appointment
@@ -59,7 +58,7 @@
     <!-- ============================================================
      MODAL: Deny Appointment
      ============================================================ -->
-    <div class="modal-backdrop" id="deny-modal" role="dialog" aria-modal="true" aria-labelledby="deny-title" hidden>
+    <div class="modal-backdrop" id="deny-modal" role="dialog" aria-modal="true" aria-labelledby="deny-title">
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title modal-title-danger" id="deny-title"><i class="fa fa-xmark-circle"></i> Deny
@@ -82,8 +81,3 @@
             </div>
         </div>
     </div>
-
-
-    </body>
-
-    </html>

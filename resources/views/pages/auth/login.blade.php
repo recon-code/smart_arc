@@ -3,16 +3,58 @@
 @section('title', 'Sign In')
 
 @section('content')
-    <div class="flex items-center justify-center min-h-[80vh]">
-        <div class="w-full max-w-md">
-            <div class="card shadow-soft">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="fa fa-sign-in-alt"></i> Welcome Back
-                    </h3>
-                </div>
+    <!-- ================================================================
+                                 PAGE 2: LOGIN (resources/views/auth/login.blade.php)
+                                 Route: GET /login → AuthController@showLogin
+                                 POST /login → AuthController@login
+                                 ================================================================ -->
+    <div id="page-login">
+        <div class="auth-page">
 
-                <div class="card-body">
+            <!-- Left Panel -->
+            <div class="auth-panel">
+                <div class="auth-panel-grid-bg"></div>
+                <div class="auth-panel-inner">
+                    <a href="#" class="auth-panel-logo" onclick="showPage('landing'); return false;">
+                        <span class="auth-panel-logo-icon"><i class="fa fa-calendar-check"></i></span>
+                        <div>
+                            <span class="auth-panel-logo-text">SAASS</span>
+                            <span class="auth-panel-logo-sub">Institute of Finance Management</span>
+                        </div>
+                    </a>
+                    <h2 class="auth-panel-title">Welcome back to smarter scheduling</h2>
+                    <p class="auth-panel-desc">Students, staff, and admins all use the same login. We'll take you to the
+                        right dashboard automatically.</p>
+                    <div class="auth-panel-perks">
+                        <div class="auth-perk">
+                            <div class="auth-perk-icon"><i class="fa fa-bolt"></i></div>
+                            <div class="auth-perk-text"><strong>Instant redirect</strong> Role-based dashboard on login
+                            </div>
+                        </div>
+                        <div class="auth-perk">
+                            <div class="auth-perk-icon"><i class="fa fa-lock"></i></div>
+                            <div class="auth-perk-text"><strong>Secure sessions</strong> Laravel Sanctum-protected</div>
+                        </div>
+                        <div class="auth-perk">
+                            <div class="auth-perk-icon"><i class="fa fa-rotate"></i></div>
+                            <div class="auth-perk-text"><strong>Password reset</strong> Via your IFM email address</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form Panel -->
+            <div class="auth-form-panel">
+                <div class="auth-form-wrap">
+                    <div class="auth-form-header">
+                        <a href="#" class="auth-back" onclick="showPage('landing'); return false;"><i
+                                class="fa fa-arrow-left"></i> Back to home</a>
+                        <h1 class="auth-title">Sign in to SAASS</h1>
+                        <p class="auth-subtitle">Don't have an account? <a href="#"
+                                onclick="showPage('register'); return false;">Register here</a></p>
+                    </div>
+
+
                     {{-- Session Status --}}
                     @if (session('status'))
                         <div class="status-banner status-banner-success mb-4">
@@ -38,63 +80,98 @@
                             </button>
                         </div>
                     @endif
+                    <!-- ERROR BANNER EXAMPLE (show when login fails) -->
+                    {{-- <div class="status-banner"
+                        style="background:var(--bg-denied); color:#b91c1c; border:1px solid rgba(239,68,68,0.3); margin-bottom:var(--space-4); display:none;"
+                        id="login-error">
+                        <i class="fa fa-circle-xmark"></i>
+                        <span>These credentials do not match our records.</span>
+                        <button class="status-banner-close"><i class="fa fa-xmark"></i></button>
+                    </div> --}}
 
-                    <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
+                    <form method="POST" action="{{ route('login.store') }}">
                         @csrf
-
-                        {{-- Email --}}
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email Address <span
-                                    class="required-mark">*</span></label>
-                            <input type="email" id="email" class="form-input @error('email') error @enderror"
-                                name="email" value="{{ old('email') }}" required autofocus autocomplete="email"
-                                placeholder="your@email.com" />
-                            @error('email')
-                                <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        {{-- Password --}}
-                        <div class="form-group">
-                            <label class="form-label" for="password">Password <span class="required-mark">*</span></label>
-                            <input type="password" id="password" class="form-input @error('password') error @enderror"
-                                name="password" required autocomplete="current-password" placeholder="••••••••" />
-                            @error('password')
-                                <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        {{-- Remember Me --}}
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember" name="remember"
-                                {{ old('remember') ? 'checked' : '' }} />
-                            <label class="form-check-label" for="remember">Remember me</label>
-                        </div>
-
-                        {{-- Forgot Password --}}
-                        @if (Route::has('password.request'))
-                            <div class="text-right text-sm">
-                                <a href="{{ route('password.request') }}" class="text-brand-accent hover:underline">
-                                    Forgot your password?
-                                </a>
+                        <div class="auth-form">
+                            <!-- Role selector -->
+                            <div class="form-group">
+                                <label class="form-label">I am a...</label>
+                                <div class="role-tabs">
+                                    <div class="role-tab active" onclick="selectRole(this,'student')">
+                                        <i class="fa fa-user-graduate"></i>
+                                        <span>Student</span>
+                                    </div>
+                                    <div class="role-tab" onclick="selectRole(this,'staff')">
+                                        <i class="fa fa-user-tie"></i>
+                                        <span>Staff</span>
+                                    </div>
+                                    <div class="role-tab" onclick="selectRole(this,'admin')">
+                                        <i class="fa fa-shield-halved"></i>
+                                        <span>Admin</span>
+                                    </div>
+                                </div>
+                                <!-- Laravel: <input type="hidden" name="role" id="login-role" value="student"> -->
                             </div>
-                        @endif
 
-                        {{-- Submit --}}
-                        <button type="submit" class="btn btn-primary w-full justify-center">
-                            <i class="fa fa-arrow-right-to-bracket"></i> Log In
-                        </button>
+                            <!-- ID field - label changes based on role -->
+                            <div class="form-group">
+                                <label class="form-label" id="login-id-label">Registration Number <span
+                                        class="required-mark">*</span></label>
+                                <div class="input-wrap">
+                                    <i class="fa fa-id-card input-icon"></i>
+                                    <!-- Laravel: name="identifier" old value: {{ old('identifier') }} -->
+                                    <!-- Laravel: @error('identifier')
+        add class 'error'
+    @enderror -->
+                                    <input type="text" class="form-input" id="login-id" name="email"
+                                        placeholder="e.g. IMC/BIT/2314470" autocomplete="username">
+                                </div>
+                                <!-- Laravel: @error('identifier')
+        <span class="form-error">{{ $message }}</span>
+    @enderror -->
+                            </div>
 
-                        {{-- Register link --}}
-                        <div class="text-center text-sm text-muted">
-                            Don't have an account?
-                            {{-- <a href="{{ route('register') }}" class="text-brand-accent font-semibold hover:underline">
-                                Sign up
-                            </a> --}}
+                            <div class="form-group">
+                                <div style="display:flex; align-items:center; justify-content:space-between;">
+                                    <label class="form-label">Password <span class="required-mark">*</span></label>
+                                    <a href="#" style="font-size:0.78rem; color:var(--brand-accent);">Forgot
+                                        password?</a>
+                                    <!-- Laravel: route('password.request') -->
+                                </div>
+                                <div class="input-wrap">
+                                    <i class="fa fa-lock input-icon"></i>
+                                    <!-- Laravel: name="password" -->
+                                    <input type="password" class="form-input" id="login-pw" placeholder="Your password"
+                                        autocomplete="current-password" name="password">
+                                    <button type="button" class="input-eye" onclick="togglePw('login-pw',this)"><i
+                                            class="fa fa-eye"></i></button>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; align-items:center; justify-content:space-between;">
+                                <label class="terms-check">
+                                    <!-- Laravel: name="remember" -->
+                                    <input type="checkbox" id="remember" name="remember">
+                                    <span class="terms-check-label">Remember me for 30 days</span>
+                                </label>
+                            </div>
+
+                            <div class="auth-submit">
+                                <!-- Laravel: type="submit" -->
+                                <button class="btn btn-primary" onclick="demoLogin()">
+                                    <i class="fa fa-right-to-bracket"></i> Sign In
+                                </button>
+                            </div>
                         </div>
                     </form>
+
+                    <p class="auth-footer-note">
+                        Having trouble? <a href="#" onclick="showPage('contact'); return false;">Contact the IT
+                            desk</a><br>
+                        IFM SAASS — <a href="/">Return to homepage</a>
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
+    </div><!-- end #page-login -->
+
 @endsection

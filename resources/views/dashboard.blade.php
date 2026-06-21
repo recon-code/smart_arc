@@ -14,8 +14,8 @@
 
 
     <!-- --------------------------------------------------------
-                             STAT CARDS ROW
-                             -------------------------------------------------------- -->
+                                         STAT CARDS ROW
+                                         -------------------------------------------------------- -->
     <section class="stats-row" aria-label="Dashboard statistics">
 
         <div class="stat-card reveal-on-scroll">
@@ -76,8 +76,8 @@
 
 
     <!-- --------------------------------------------------------
-                             CONTENT GRID: Pending Requests + Chart Placeholder
-                             -------------------------------------------------------- -->
+                                         CONTENT GRID: Pending Requests + Chart Placeholder
+                                         -------------------------------------------------------- -->
     <div class="content-grid">
 
         <!-- Pending Requests Table -->
@@ -114,8 +114,7 @@
                             <td><span class="badge badge-pending">Pending</span></td>
                             <td>
                                 <div class="table-actions">
-                                    <button class="btn btn-sm btn-primary"
-                                        onclick="openModal('approve-modal')">Approve</button>
+                                    <button class="btn btn-sm btn-primary" data-open-modal="approve-modal">Approve</button>
                                     <button class="btn btn-sm btn-ghost" onclick="openModal('deny-modal')">Deny</button>
                                 </div>
                             </td>
@@ -242,8 +241,8 @@
     </div>
 
     <!-- ================================================================
-                         13. STAFF CARD (Directory) ★ NEW
-                         ================================================================ -->
+                                     13. STAFF CARD (Directory) ★ NEW
+                                     ================================================================ -->
     <section id="staffcard" class="ref-section">
         {{-- <div class="ref-section-header">
                     <span class="ref-section-tag">Section 13 <span style="color: var(--color-approved);">★
@@ -322,8 +321,8 @@
 
 
     <!-- ================================================================
-                         14. APPOINTMENT CARD ★ NEW
-                         ================================================================ -->
+                                     14. APPOINTMENT CARD ★ NEW
+                                     ================================================================ -->
     <section id="aptcard" class="ref-section">
         <div style="display: flex; flex-direction: column; gap: var(--space-3);">
             <!-- Pending -->
@@ -388,8 +387,8 @@
 
 
     <!-- --------------------------------------------------------
-                             BUTTON STYLE SHOWCASE (Component library reference)
-                             -------------------------------------------------------- -->
+                                         BUTTON STYLE SHOWCASE (Component library reference)
+                                         -------------------------------------------------------- -->
     <section class="card reveal-on-scroll" style="margin-top: var(--space-6);">
         <div class="card-header">
             <h2 class="card-title"><i class="fa fa-palette"></i> Button Components</h2>

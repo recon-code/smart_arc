@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAASS — Dashboard</title>
 
-    <!-- TailwindCSS CDN (replace with compiled build in Laravel) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- FontAwesome Free CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -262,9 +259,16 @@
                                         class="fa fa-calendar"></i> My Schedule</a></li>
                             <li class="profile-menu-divider"></li>
                             <li>
-                                <form method="POST" action="/logout">
+                                {{-- <form method="POST" action="/logout">
                                     <button type="submit" class="profile-menu-item profile-logout" role="menuitem">
                                         <i class="fa fa-right-from-bracket"></i> Sign out
+                                    </button>
+                                </form> --}}
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="profile-menu-item profile-logout" role="menuitem"
+                                        title="Logout" aria-label="Logout">
+                                        <i class="fa fa-right-from-bracket"></i> Logout
                                     </button>
                                 </form>
                             </li>
@@ -286,3 +290,8 @@
         </main>
 
         @include('layouts.footer')
+    </div><!-- end .main-wrapper -->
+
+</body>
+
+</html>
