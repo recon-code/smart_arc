@@ -777,8 +777,6 @@
         </div>
     </div>
 
-    <!-- JS -->
-    <script src="app.js"></script>
 
 </body>
 
