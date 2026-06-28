@@ -43,7 +43,7 @@
 
         <!-- Role Badge -->
         <div class="sidebar-role-badge">
-            <span class="role-indicator role-staff">Staff — Lecturer</span>
+            <span class="role-indicator role-staff">{{ Auth::user()->role }} — {{ Auth::user()->title }}</span>
         </div>
 
         <!-- Navigation Links -->
@@ -117,12 +117,12 @@
         <div class="sidebar-footer">
             <div class="sidebar-user">
                 <div class="user-avatar-sm">
-                    <img src="https://ui-avatars.com/api/?name=Dr+Tairo&background=1e3a5f&color=fff&size=40"
+                    <img src="https://ui-avatars.com/api/?name={{ ucwords(Auth::user()->name) }}&background=1e3a5f&color=fff&size=40"
                         alt="User avatar">
                 </div>
                 <div class="user-meta">
-                    <span class="user-name">Dr. Daniel Tairo</span>
-                    <span class="user-role">Supervisor</span>
+                    <span class="user-name">{{ ucwords(Auth::user()->name) }}</span>
+                    <span class="user-role">{{ ucwords(Auth::user()->role) }}</span>
                 </div>
                 <form method="POST" action="/logout">
                     <button type="submit" class="logout-btn" title="Logout" aria-label="Logout">
@@ -157,7 +157,7 @@
                 </button>
                 <div class="page-title-group">
                     <h1 class="page-title">Dashboard</h1>
-                    <span class="page-breadcrumb">Staff / Overview</span>
+                    <span class="page-breadcrumb">{{ ucwords(Auth::user()->role) }} / Overview</span>
                 </div>
             </div>
 
@@ -235,7 +235,7 @@
                 <div class="dropdown" id="profile-dropdown">
                     <button class="profile-trigger dropdown-trigger" aria-haspopup="true" aria-expanded="false"
                         aria-label="Profile menu">
-                        <img src="https://ui-avatars.com/api/?name=Dr+Tairo&background=1e3a5f&color=fff&size=36"
+                        <img src="https://ui-avatars.com/api/?name={{ ucwords(Auth::user()->name) }}&background=1e3a5f&color=fff&size=36"
                             alt="Profile" class="profile-avatar">
                         <span class="profile-name-label">{{ Auth::user()->name }}</span>
                         <i class="fa fa-chevron-down profile-chevron"></i>
@@ -243,11 +243,12 @@
 
                     <div class="dropdown-panel profile-panel" role="menu" aria-label="Profile options">
                         <div class="profile-panel-header">
-                            <img src="https://ui-avatars.com/api/?name=Dr+Tairo&background=1e3a5f&color=fff&size=48"
+                            <img src="https://ui-avatars.com/api/?name={{ ucwords(Auth::user()->name) }}&background=1e3a5f&color=fff&size=48"
                                 alt="Profile" class="profile-avatar-lg">
                             <div>
                                 <p class="profile-panel-name">{{ Auth::user()->name }}</p>
                                 <p class="profile-panel-role">{{ Auth::user()->email }}</p>
+                                <p class="profile-panel-role">{{ ucwords(Auth::user()->role) }}</p>
                             </div>
                         </div>
                         <ul class="profile-menu-list">

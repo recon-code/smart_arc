@@ -1,10 +1,11 @@
+{{-- resources/views/pages/auth/register.blade.php --}}
 @extends('layouts.subtle')
 
 @section('title', 'Register')
 
 @section('content')
     <div class="auth-page">
-        <!-- Left decorative panel (same as login) -->
+        <!-- Left decorative panel -->
         <div class="auth-panel">
             <div class="auth-panel-grid-bg"></div>
             <div class="auth-panel-inner">
@@ -45,7 +46,7 @@
                     <p class="auth-subtitle">Already have an account? <a href="{{ route('login') }}">Sign in here</a></p>
                 </div>
 
-                {{-- Error / Success banners --}}
+                {{-- Global error banner --}}
                 @if ($errors->any())
                     <div class="status-banner status-banner-danger mb-4">
                         <i class="fa fa-circle-xmark"></i>
@@ -60,8 +61,28 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('register.store') }}" class="auth-form">
+                <form method="POST" action="{{ route('register') }}" class="auth-form">
                     @csrf
+
+                    {{-- Role Tabs (Student / Staff) --}}
+                    <div class="form-group">
+                        <label class="form-label">I am a...</label>
+                        <div class="role-tabs">
+                            <div class="role-tab active" onclick="selectRole(this, 'student')">
+                                <i class="fa fa-user-graduate"></i>
+                                <span>Student</span>
+                            </div>
+                            <div class="role-tab" onclick="selectRole(this, 'staff')">
+                                <i class="fa fa-user-tie"></i>
+                                <span>Staff</span>
+                            </div>
+                        </div>
+                        {{-- Hidden role input --}}
+                        <input type="hidden" name="role" id="register-role" value="student">
+                        @error('role')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
 
                     {{-- Full Name --}}
                     <div class="form-group">
@@ -77,9 +98,38 @@
                         @enderror
                     </div>
 
+                    {{-- Registration No --}}
+                    <div class="form-group">
+                        <label class="form-label" for="reg">Registration Number <span
+                                class="required-mark">*</span></label>
+                        <div class="input-wrap">
+                            <i class="fa fa-user input-icon"></i>
+                            <input type="text" id="reg" class="form-input @error('reg') error @enderror"
+                                name="reg" value="{{ old('reg') }}" required autofocus
+                                placeholder="e.g. IMC/BIT/XXXXXX" autocomplete="reg">
+                        </div>
+                        @error('reg')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Salute (Title) --}}
+                    <div class="form-group">
+                        <label class="form-label" for="salute">Salutation </label>
+                        <div class="input-wrap">
+                            <i class="fa fa-address-card input-icon"></i>
+                            <input type="text" id="salute" class="form-input @error('salute') error @enderror"
+                                name="salute" value="{{ old('salute') }}" placeholder="e.g. Mr., Ms., Dr., Prof.">
+                        </div>
+                        @error('salute')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
                     {{-- Email --}}
                     <div class="form-group">
-                        <label class="form-label" for="email">Email Address <span class="required-mark">*</span></label>
+                        <label class="form-label" for="email">Email Address <span
+                                class="required-mark">*</span></label>
                         <div class="input-wrap">
                             <i class="fa fa-envelope input-icon"></i>
                             <input type="email" id="email" class="form-input @error('email') error @enderror"
@@ -92,14 +142,102 @@
                         @enderror
                     </div>
 
+                    {{-- Phone --}}
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number</label>
+                        <div class="input-wrap">
+                            <i class="fa fa-phone input-icon"></i>
+                            <input type="text" id="phone" class="form-input @error('phone') error @enderror"
+                                name="phone" value="{{ old('phone') }}"
+                                placeholder="e.g. 0712345678 or +255712345678">
+                        </div>
+                        <span class="form-hint">Tanzanian number (0xx or +255xx) with 9 digits after prefix.</span>
+                        @error('phone')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
+
+                    {{--  (Title) --}}
+                    <div class="form-group">
+                        <label class="form-label" for="title">Title </label>
+                        <div class="input-wrap">
+                            <i class="fa fa-address-card input-icon"></i>
+                            {{-- <input type="text" id="title" class="form-input @error('title') error @enderror"
+                                name="title" value="{{ old('title') }}"
+                                placeholder="e.g. Lecturer, Dr., Prof., Eng."> --}}
+
+                            <select class="form-select" name="title" style="padding-left:40px;">
+                                <option value="">Select your title</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Registrar">Registrar</option>
+                                <option value="Loan Officer">Loan Officer</option>
+                                <option value="Dean of Students">Dean of Students</option>
+                            </select>
+                        </div>
+                        @error('title')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Faculty --}}
+                    <div class="form-group">
+                        <label class="form-label" for="faculty">Faculty </label>
+                        <div class="input-wrap">
+                            <i class="fa fa-building-columns input-icon"></i>
+                            {{-- <input type="text" id="faculty" class="form-input @error('faculty') error @enderror"
+                                name="faculty" value="{{ old('faculty') }}" placeholder="e.g. Faculty of Business"> --}}
+                            <select class="form-select" name="faculty" style="padding-left:40px;">
+                                <option value="">Select your faculty</option>
+                                <option value="Insurance & Banking">Insurance & Banking</option>
+                                <option value="Computing & Mathematics">Computing & Mathematics</option>
+                                <option value="Business & Economics">Business & Economics</option>
+                            </select>
+                        </div>
+                        @error('faculty')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Department --}}
+                    <div class="form-group">
+                        <label class="form-label" for="department">Department</label>
+                        <div class="input-wrap">
+                            <i class="fa fa-sitemap input-icon"></i>
+                            {{-- <input type="text" id="department" class="form-input @error('department') error @enderror"
+                                name="department" value="{{ old('department') }}"
+                                placeholder="e.g. Department of Information Systems"> --}}
+                            <select class="form-select" name="department" style="padding-left:40px;">
+                                <option value="">Select your department</option>
+                                {{-- Business & Economics --}}
+                                <option value="Accounting & Finance">Accounting & Finance</option>
+                                <option value="Management Science">Management Science</option>
+                                <option value="Tax & Economics">Tax & Economics</option>
+
+                                {{-- computing & mathematics --}}
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Cyber Security">Cyber Security</option>
+
+                                {{-- Insurance & Banking --}}
+                                <option value="Banking & Financial Services">Banking & Financial Services</option>
+                                <option value="Insurance">Insurance</option>
+                                <option value="Social Protection">Social Protection</option>
+                            </select>
+                        </div>
+                        @error('department')
+                            <span class="form-error"><i class="fa fa-circle-xmark"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
                     {{-- Password --}}
                     <div class="form-group">
                         <label class="form-label" for="password">Password <span class="required-mark">*</span></label>
                         <div class="input-wrap">
                             <i class="fa fa-lock input-icon"></i>
                             <input type="password" id="password" class="form-input @error('password') error @enderror"
-                                name="password" required placeholder="Create a strong password" autocomplete="new-password"
-                                oninput="updatePwStrength(this.value)">
+                                name="password" required placeholder="Create a strong password"
+                                autocomplete="new-password" oninput="updatePwStrength(this.value)">
                             <button type="button" class="input-eye" onclick="togglePw('password', this)">
                                 <i class="fa fa-eye"></i>
                             </button>
@@ -158,4 +296,59 @@
             </div>
         </div>
     </div>
+
+    {{-- JavaScript for role tabs, password toggle, and strength (same as login) --}}
+    <script>
+        // Role tab switching
+        function selectRole(el, role) {
+            // Remove active class from all tabs in the same container
+            const tabs = el.closest('.role-tabs').querySelectorAll('.role-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            el.classList.add('active');
+            // Update hidden input
+            document.getElementById('register-role').value = role;
+        }
+
+        // Toggle password visibility
+        function togglePw(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Simple password strength indicator (optional)
+        function updatePwStrength(val) {
+            const wrap = document.getElementById('pw-strength-wrap');
+            const bars = [
+                document.getElementById('pwb1'),
+                document.getElementById('pwb2'),
+                document.getElementById('pwb3'),
+                document.getElementById('pwb4')
+            ];
+            const label = document.getElementById('pw-strength-label');
+            let strength = 0;
+            if (val.length >= 8) strength++;
+            if (val.match(/[a-z]/) && val.match(/[A-Z]/)) strength++;
+            if (val.match(/\d/)) strength++;
+            if (val.match(/[^a-zA-Z0-9]/)) strength++;
+            // Map to 4 levels
+            let level = Math.min(strength, 4);
+            const levels = ['Too short', 'Weak', 'Fair', 'Good', 'Strong'];
+            // Reset bars
+            bars.forEach((bar, idx) => {
+                bar.style.background = idx < level ? 'var(--brand-primary)' : '#e2e8f0';
+            });
+            label.textContent = levels[level] || 'Too short';
+            wrap.style.display = val.length > 0 ? 'flex' : 'none';
+        }
+    </script>
 @endsection

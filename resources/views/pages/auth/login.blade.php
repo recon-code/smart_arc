@@ -4,10 +4,10 @@
 
 @section('content')
     <!-- ================================================================
-                                 PAGE 2: LOGIN (resources/views/auth/login.blade.php)
-                                 Route: GET /login → AuthController@showLogin
-                                 POST /login → AuthController@login
-                                 ================================================================ -->
+                                         PAGE 2: LOGIN (resources/views/auth/login.blade.php)
+                                         Route: GET /login → AuthController@showLogin
+                                         POST /login → AuthController@login
+                                         ================================================================ -->
     <div id="page-login">
         <div class="auth-page">
 
@@ -50,8 +50,8 @@
                         <a href="#" class="auth-back" onclick="showPage('landing'); return false;"><i
                                 class="fa fa-arrow-left"></i> Back to home</a>
                         <h1 class="auth-title">Sign in to SAASS</h1>
-                        <p class="auth-subtitle">Don't have an account? <a href="#"
-                                onclick="showPage('register'); return false;">Register here</a></p>
+                        <p class="auth-subtitle">Don't have an account? <a href="{{ route('register') }}">Register here</a>
+                        </p>
                     </div>
 
 
@@ -60,6 +60,17 @@
                         <div class="status-banner status-banner-success mb-4">
                             <i class="fa fa-check-circle"></i>
                             {{ session('status') }}
+                            <button class="status-banner-close ml-auto" onclick="this.closest('.status-banner').remove()">
+                                <i class="fa fa-xmark"></i>
+                            </button>
+                        </div>
+                    @endif
+
+                    {{-- Session Status --}}
+                    @if (session('success'))
+                        <div class="status-banner status-banner-success mb-4">
+                            <i class="fa fa-check-circle"></i>
+                            {{ session('success') }}
                             <button class="status-banner-close ml-auto" onclick="this.closest('.status-banner').remove()">
                                 <i class="fa fa-xmark"></i>
                             </button>

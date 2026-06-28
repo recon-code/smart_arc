@@ -37,6 +37,21 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'phone',
+        'role',
+        'faculty',
+        'department',
+        'salute',
+        'reg',
+        'title',
+        'status',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -53,7 +68,7 @@ class User extends Authenticatable
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
 }
